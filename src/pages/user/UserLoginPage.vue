@@ -2,7 +2,7 @@
 import {useRouter} from "vue-router";
 import {ref} from 'vue';
 import {showToast} from 'vant';
-import myAxios from "../plugins/myAxios.ts";
+import myAxios from "../../plugins/myAxios.ts";
 
 const router = useRouter();
 const userAccount = ref('');
@@ -50,8 +50,6 @@ const onSubmit = async () => {
       </van-button>
     </div>
   </van-form>
-
-
 </template>
 
 <style scoped>

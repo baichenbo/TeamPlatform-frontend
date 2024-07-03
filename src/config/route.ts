@@ -1,11 +1,12 @@
 // 定义路由
 import Index from "../pages/Index.vue";
-import Team from "../pages/Team.vue";
+import Team from "../pages/team/TeamPage.vue";
 import SearchPage from "../pages/SearchPage.vue";
-import UserPage from "../pages/UserPage.vue";
-import UserEditPage from "../pages/UserEditPage.vue";
+import UserPage from "../pages/user/UserPage.vue";
+import UserEditPage from "../pages/user/UserEditPage.vue";
 import SearchResultPage from "../pages/SearchResultPage.vue";
-import UserLoginPage from "../pages/UserLoginPage.vue";
+import UserLoginPage from "../pages/user/UserLoginPage.vue";
+import TeamJoinPage from "../pages/team/TeamJoinPage.vue";
 
 const routes = [
     {path: '/index', component: Index},
@@ -15,6 +16,7 @@ const routes = [
     {path: '/user/edit', component: UserEditPage},
     {path: '/user/list', component: SearchResultPage},
     {path: '/user/login', component: UserLoginPage},
+    {path: '/team/join', component: TeamJoinPage},
 ]
 
 export default routes;
