@@ -6,7 +6,7 @@ import UserPage from "../pages/user/UserPage.vue";
 import UserEditPage from "../pages/user/UserEditPage.vue";
 import SearchResultPage from "../pages/SearchResultPage.vue";
 import UserLoginPage from "../pages/user/UserLoginPage.vue";
-import TeamJoinPage from "../pages/team/TeamJoinPage.vue";
+import TeamAddPage from "../pages/team/TeamAddPage.vue";
 
 const routes = [
     {path: '/index', component: Index},
@@ -16,7 +16,7 @@ const routes = [
     {path: '/user/edit', component: UserEditPage},
     {path: '/user/list', component: SearchResultPage},
     {path: '/user/login', component: UserLoginPage},
-    {path: '/team/join', component: TeamJoinPage},
+    {path: '/team/add', component: TeamAddPage},
 ]
 
 export default routes;

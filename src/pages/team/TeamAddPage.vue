@@ -30,7 +30,7 @@ const onSubmit = async () => {
     status: Number(addTeamData.value.status),
     expireTime: moment(initFormData.expireTime).format("YYYY-MM-DD"),
   }
-  const res = await myAxios.post("/team/join", postData);
+  const res = await myAxios.post("/team/add", postData);
   if (res?.code === 0 && res.data) {
     showToast('添加成功');
     router.push({
