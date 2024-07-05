@@ -23,7 +23,7 @@ const onSubmit = async () => {
 
   const res = await myAxios.post("/user/update", {
     'id': currentUser.id,
-    [editUser.value.editKey]: editUser.value.currentValue,
+    [editUser.value.editKey]: genderChecked.value,
   })
   if (res.code === 0 && res.data > 0) {
     showToast('修改成功');
@@ -32,17 +32,16 @@ const onSubmit = async () => {
     showToast('修改错误');
   }
 };
+const genderChecked=ref('男');
 
 </script>
 
 <template>
   <van-form @submit="onSubmit">
-    <van-field
-        v-model="editUser.currentValue"
-        :name="editUser.editKey"
-        :label="editUser.editName"
-        :placeholder="'请输入一个新的' + editUser.editName"
-    />
+    <van-radio-group v-model="genderChecked" style="margin-top: 20px; margin-bottom: 20px; padding-left: 20px;">
+      <van-radio name="男">男</van-radio>
+      <van-radio name="女" style="margin-top: 20px;">女</van-radio>
+    </van-radio-group>
     <div style="margin: 16px;">
       <van-button round block type="primary" native-type="submit">
         提交

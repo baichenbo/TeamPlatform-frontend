@@ -7,7 +7,6 @@ import TeamCardList from "../../components/TeamCardList.vue";
 
 const router = useRouter();
 const searchText = ref("");
-const active = ref('public')
 
 const doAddTeam = () => {
   router.push("/team/add");
@@ -17,26 +16,21 @@ const onSearch = (val) => {
   searchTeam(val);
 }
 
-const searchTeam = async (val = '', status = 0) => {
-  const res = await myAxios.get("/team/list", {
+/**
+ * 搜索小队
+ * @param val
+ */
+const searchTeam = async (val) => {
+  const res = await myAxios.get("/team/list/my/create", {
     params: {
       searchText: val,
       pageNum: 1,
-      status,
     }
   });
   if (res?.code === 0) {
     teamList.value = res.data;
   } else {
     showToast("小队列表加载失败，请刷新重试。")
-  }
-}
-
-const onTabChange = (status) => {
-  if (status === 'public') {
-    searchTeam(searchText.value, 0);
-  } else {
-    searchTeam(searchText.value, 2);
   }
 }
 
@@ -50,11 +44,7 @@ onMounted(async () => {
 <template>
   <div id="teamPage">
     <van-search v-model="searchText" placeholder="搜索小队" @search="onSearch"/>
-    <van-tabs v-model:active="active" @change="onTabChange">
-      <van-tab title="公开" name="public"/>
-      <van-tab title="加密" name="secret"/>
-    </van-tabs>
-    <van-button class="add-button" type="primary" icon="plus" @click="doAddTeam"></van-button>
+    <van-button type="primary" @click="doAddTeam">加入小队</van-button>
     <team-card-list :team-list="teamList"/>
     <van-empty v-if="teamList.length < 1" description="小队列表为空"/>
   </div>

@@ -1,45 +1,79 @@
 <script setup lang="ts">
-import {ref} from "vue";
-import {useRouter} from "vue-router";
+import {onMounted, ref} from "vue";
+import {useRoute, useRouter} from "vue-router";
 import myAxios from "../../plugins/myAxios.ts";
 import {showToast} from "vant"
-import moment from 'moment';
+import {TeamType} from "../../models/team";
 // 展示日期选择器
 const showPicker = ref(false);
 const minDate = new Date();
 const router = useRouter();
-const initFormData = {
-  "name": "",
-  "description": "",
-  "expireTime": minDate,
-  "maxNum": 3,
-  "password": "",
-  "status": 0,
-}
+const route = useRoute();
+const id = route.query.id;
 
 // 需要用户填写的表单数据
-const addTeamData = ref({...initFormData})
+const addTeamData = ref<TeamType>({})
+
+// 获取之前的小队信息
+onMounted(async () => {
+  if (id <= 0) {
+    showToast('加载小队失败');
+    return;
+  }
+  const res = await myAxios.get("/team/get", {
+    params: {
+      id,
+    }
+  });
+  if (res?.code === 0) {
+    addTeamData.value = res.data; // 设置响应式对象的值
+  } else {
+    showToast('加载小队失败，请刷新重试');
+  }
+});
+
 const onConfirm = ({selectedValues}) => {
-  initFormData.expireTime = selectedValues.join('/');
+  const year = selectedValues[0];
+  const month = selectedValues[1] - 1; // 减去1以匹配 JavaScript 的月份索引
+  const day = selectedValues[2];
+
+  // 构造日期对象，使用 UTC 方法
+  const expireDate = new Date(Date.UTC(year, month, day));
+
+  // 格式化成 ISO 8601 格式的日期字符串
+  const isoExpireDate = expireDate.toISOString().split('T')[0]; // 只获取日期部分，去掉时间部分
+
+  // 更新 addTeamData.expireTime
+  addTeamData.expireTime = isoExpireDate;
+
+  console.log(addTeamData.expireTime);
   showPicker.value = false;
 };
-//提交
+
+// 提交
 const onSubmit = async () => {
   const postData = {
     ...addTeamData.value,
-    status: Number(addTeamData.value.status),
-    expireTime: moment(initFormData.expireTime).format("YYYY-MM-DD"),
+    expireTime: addTeamData.expireTime,
+    status: Number(addTeamData.value.status)
   }
-  const res = await myAxios.post("/team/add", postData);
+  console.log(addTeamData.value)
+  // todo 前端参数校验
+  const res = await myAxios.post("/team/update", postData);
   if (res?.code === 0 && res.data) {
-    showToast('添加成功');
+    showToast('更新成功');
     router.push({
       path: '/team',
       replace: true,
     });
   } else {
-    showToast('添加失败');
+    showToast('更新失败');
   }
+}
+
+const formatDate = (value) => {
+  const date = new Date(value);
+  return date.toLocaleDateString('zh-CN'); // 使用本地化的日期格式
 }
 
 </script>
@@ -68,7 +102,7 @@ const onSubmit = async () => {
             readonly
             name="datePicker"
             label="过期时间"
-            placeholder="点击选择过期时间"
+            :placeholder="formatDate(addTeamData.expireTime) ?? '点击选择过期时间'"
             @click="showPicker = true"
         />
         <van-popup v-model:show="showPicker" position="bottom">
@@ -79,11 +113,6 @@ const onSubmit = async () => {
               :min-date="minDate"
           />
         </van-popup>
-        <van-field name="stepper" label="最大人数">
-          <template #input>
-            <van-stepper v-model="addTeamData.maxNum" max="10" min="3"/>
-          </template>
-        </van-field>
         <van-field name="radio" label="小队状态">
           <template #input>
             <van-radio-group v-model="addTeamData.status" direction="horizontal">

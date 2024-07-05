@@ -1,24 +1,7 @@
 <script setup lang="ts">
 import {useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
-import qs from "qs";
-import myAxios from "../../plugins/myAxios.ts";
-import {showToast} from "vant";
 import {getCurrentUser} from "../../services/user.ts";
-
-// const user = {
-//
-//   id: 1,
-//   username: "秦大宝z",
-//   userAccount: "string",
-//   avatarUrl: "E:\\StarProject\\FriendCenter\\576c69bbe70c4b51bd92698bb894f9e.jpg",
-//   profile: "aa",
-//   gender: "宝",
-//   phone: "123",
-//   email: "123456@qq.com",
-//   createTime: 20220202,
-//
-// }
 
 const user = ref();
 
@@ -42,16 +25,10 @@ const toEdit = (editKey: string, editName: string, currentValue: string) => {
 
 <template>
   <template v-if="user">
-    <van-cell title="昵称" is-link to="/user/edit" :value="user.username"
-              @click="toEdit('username', '昵称', user.username)"/>
-    <van-cell title="账号" :value="user.userAccount"/>
-    <van-cell title="头像" is-link to="/user/edit">
-      <img :src="user.avatarUrl">
-    </van-cell>
-    <van-cell title="性别" is-link to="/user/edit" :value="user.gender" @click="toEdit('gender', '性别', user.gender)"/>
-    <van-cell title="电话" is-link to="/user/edit" :value="user.phone" @click="toEdit('phone', '电话', user.phone)"/>
-    <van-cell title="邮箱" is-link to="/user/edit" :value="user.email" @click="toEdit('email', '邮箱', user.email)"/>
-    <van-cell title="注册时间" is-link to="/user/edit" :value="user.createTime"/>
+    <van-cell title="当前用户" :value="user?.username" />
+    <van-cell title="修改用户信息" is-link to="/user/update" />
+    <van-cell title="我创建的小队" is-link to="/user/team/create" />
+    <van-cell title="我加入的小队" is-link to="/user/team/join" />
   </template>
 </template>
 

@@ -46,6 +46,28 @@ const oraginTagList = [
       {text: '大三', id: '大三'},
     ],
   },
+  {
+    text: '运动',
+    children: [
+      {text: '羽毛球', id: '羽毛球'},
+      {text: '篮球', id: '篮球'},
+      {text: '足球', id: '足球'},
+      {text: '乒乓球', id: '乒乓球'},
+      {text: '跑步', id: '跑步'},
+    ],
+  },
+  {
+    text: '兴趣',
+    children: [
+      {text: 'C++', id: 'C++'},
+      {text: 'Java', id: 'Java'},
+      {text: 'Python', id: 'Python'},
+      {text: 'C#', id: 'C#'},
+      {text: 'Golang', id: 'Golang'},
+      {text: '前端', id: '前端'},
+      {text: '后端', id: '后端'},
+    ],
+  }
 ];
 let tagList = ref(oraginTagList);
 

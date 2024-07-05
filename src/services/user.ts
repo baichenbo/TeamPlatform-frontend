@@ -1,7 +1,7 @@
 import myAxios from "../plugins/myAxios.ts";
-import {getCurrentUserState, setCurrentUserState} from "../states/user.ts";
+import {setCurrentUserState} from "../states/user.ts";
 
-export const getCurrentUser = async () =>{
+export const getCurrentUser = async () => {
     const res = await myAxios.get('/user/current');
     if (res.code === 0) {
         setCurrentUserState(res.data);
